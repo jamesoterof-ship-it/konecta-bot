@@ -299,6 +299,17 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
   .robot{width:180px}
 }
 </style>
+<style>
+.hero-benes{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:9px}
+.hero-benes li{color:#dbe7d0;font-size:15px;font-weight:500}
+.hero-trust{margin-top:14px;font-size:12.5px;color:#9fb0a6;letter-spacing:.3px}
+.hero-trust b{color:#fff}
+.garantia-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 26px;background:#fff;border:1px solid var(--borde);border-radius:16px;padding:18px 24px;max-width:860px;margin:0 auto 40px;box-shadow:0 8px 24px rgba(22,35,46,.06)}
+.garantia-strip span{font-weight:700;color:var(--oscuro);font-size:14.5px}
+.cta-flotante{position:fixed;right:20px;bottom:20px;z-index:1500;background:var(--verde);color:#fff;font-weight:800;padding:15px 24px;border-radius:32px;box-shadow:0 10px 28px rgba(108,194,74,.5);text-decoration:none;font-size:15.5px;transition:all .2s}
+.cta-flotante:hover{background:var(--verde-osc);transform:translateY(-2px)}
+@media(max-width:600px){.cta-flotante{right:12px;bottom:12px;padding:12px 18px;font-size:14px}}
+</style>
 </head>
 <body>
 
@@ -326,12 +337,12 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
     <div class="hero-text">
       <div class="eyebrow">IA QUE CONECTA · VENTAS QUE CRECEN</div>
       <h1>Vende más por WhatsApp<br>con un bot que <span class="hl">nunca duerme</span></h1>
-      <p class="sub">Atiende clientes, responde dudas y cierra ventas automáticamente con inteligencia artificial. Para tu tienda de ecommerce en toda Latinoamérica.</p>
+      <p class="sub">Atiende clientes, responde dudas y <b>cierra ventas solo</b> con inteligencia artificial — 24 horas, todos los días. Hecho para ecommerce en toda Latinoamérica.</p><ul class="hero-benes"><li>✓ Responde en segundos, nunca pierdas una venta</li><li>✓ Recupera clientes que se enfrían</li><li>✓ Tú tomas el control cuando quieras</li></ul>
       <div class="hero-btns">
         <a href="https://web-production-a5adc.up.railway.app/panel?crear" class="btn btn-verde">Empieza gratis 7 días</a>
         <a href="#como" class="btn btn-line">Ver cómo funciona</a>
       </div>
-      <p class="hero-note">Prueba 7 días · <b>No se cobra hasta terminar la prueba</b></p>
+      <p class="hero-note">Prueba 7 días · <b>No se cobra hasta terminar la prueba</b></p><p class="hero-trust">Funciona con <b>WhatsApp</b> · <b>Shopify</b> · <b>Wompi</b> · Nequi · PSE</p>
     </div>
     <div class="robot-stage">
       <div class="robot-glow"></div>
@@ -558,7 +569,7 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
 <section id="integraciones">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">Integracion estrella</div>
+      <div class="sec-tag">Integración estrella</div>
       <h2>Potencia tu tienda con Shopify</h2>
       <p>Conecta tu tienda con un clic y deja que el bot haga el trabajo pesado.</p>
     </div>
@@ -577,8 +588,8 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
     </div>
     <div class="proximo-box">
       <div class="proximo-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div>
-      <div><strong>Mas integraciones</strong><p>Estamos sumando nuevas conexiones constantemente.</p></div>
-      <span class="badge-soon">Proximamente</span>
+      <div><strong>Más integraciones</strong><p>Estamos sumando nuevas conexiones constantemente.</p></div>
+      <span class="badge-soon">Próximamente</span>
     </div>
   </div>
 </section>
@@ -700,12 +711,12 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-tag">Testimonios</div>
-      <h2>Lo que dicen nuestros clientes</h2>
+      <h2>Compra con confianza</h2>
     </div>
     <div class="testi-soon">
       <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-      <h3>Próximamente</h3>
-      <p>Estamos sumando nuestros primeros negocios. Muy pronto verás aquí las historias reales de quienes ya venden más con Konecta Bot.</p>
+      <h3>Tu prueba, sin riesgo</h3>
+      <p>Prueba Konecta 7 días gratis: no se te cobra hasta terminar la prueba y cancelas cuando quieras, sin permanencia. Y siempre tienes soporte humano en español cuando lo necesites.</p>
     </div>
   </div>
 </section>
@@ -714,7 +725,7 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-tag">Preguntas frecuentes</div>
-      <h2>Resolvemos tus dudas</h2>
+      <div class="wrap"><div class="garantia-strip"><span>🎁 7 días gratis</span><span>🔓 Cancela cuando quieras</span><span>🚫 Sin permanencia</span><span>🇨🇴 Pago seguro con Wompi</span><span>💬 Soporte humano</span></div></div><h2>Resolvemos tus dudas</h2>
     </div>
     <div class="faq-list">
       <div class="faq-item">
@@ -895,5 +906,6 @@ function setBilling(tipo){
 }
 </script>
 
+<a href="https://web-production-a5adc.up.railway.app/panel?crear" class="cta-flotante">🚀 Empieza gratis</a>
 </body>
 </html>
