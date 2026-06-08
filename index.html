@@ -897,6 +897,13 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
   #koni-input input:focus{border-color:#6CC24A}
   #koni-input button{background:#6CC24A;border:none;color:#fff;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:17px}
   #koni-input button:disabled{opacity:.5}
+  #koni-clip{background:#eef3f6 !important;color:#16232E !important;font-size:18px}
+  #koni-prev{padding:0 12px;background:#fff}
+  #koni-prev .chip-img{display:inline-flex;align-items:center;gap:8px;margin:8px 0 0;
+    background:#eef3f6;border:1px solid #d7e0e7;border-radius:10px;padding:6px 8px;font-size:12px}
+  #koni-prev .chip-img img{width:34px;height:34px;object-fit:cover;border-radius:6px}
+  #koni-prev .chip-img b{cursor:pointer;color:#c0392b}
+  .koni-b img{max-width:100%;border-radius:10px;margin-top:4px}
 </style>
 
 <div id="koni-launch" onclick="KoniChat.toggle()" aria-label="Chatea con Koni">
@@ -908,7 +915,10 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
     <button onclick="KoniChat.toggle()" aria-label="Cerrar">&times;</button>
   </div>
   <div id="koni-msgs"></div>
+  <div id="koni-prev"></div>
   <div id="koni-input">
+    <button id="koni-clip" onclick="document.getElementById('koni-file').click()" aria-label="Adjuntar captura" title="Adjuntar captura">📎</button>
+    <input id="koni-file" type="file" accept="image/*" style="display:none" onchange="KoniChat.adjuntar(this)">
     <input id="koni-text" type="text" placeholder="Escribe tu pregunta…" autocomplete="off"
            onkeydown="if(event.key==='Enter'){event.preventDefault();KoniChat.enviar();}">
     <button id="koni-send" onclick="KoniChat.enviar()" aria-label="Enviar">&#10148;</button>
@@ -918,14 +928,16 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
 <script>
 var KoniChat = (function(){
   var API = 'https://web-production-a5adc.up.railway.app/api/soporte/chat';
-  var hist = [], abierto = false, saludado = false, enviando = false;
+  var hist = [], abierto = false, saludado = false, enviando = false, imgPend = null;
 
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  // texto limpio: convierte **negrita** a <b> y elimina asteriscos sueltos
+  function fmt(s){ return esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*/g,''); }
 
-  function pinta(de, texto){
+  function burbuja(de, html){
     var d = document.createElement('div');
     d.className = 'koni-b ' + (de==='user'?'user':'bot');
-    d.innerHTML = esc(texto);
+    d.innerHTML = html;
     var c = document.getElementById('koni-msgs');
     c.appendChild(d); c.scrollTop = c.scrollHeight;
     return d;
@@ -935,35 +947,57 @@ var KoniChat = (function(){
     document.getElementById('koni-panel').classList.toggle('abierto', abierto);
     document.getElementById('koni-launch').style.display = abierto ? 'none' : 'flex';
     if(abierto){
-      if(!saludado){
-        saludado = true;
-        pinta('bot','¡Hola! 👋 Soy Koni, el asistente de Konecta. Pregúntame sobre planes, precios, cómo funciona o cómo conectar tu WhatsApp, Shopify o redes. ¿En qué te ayudo?');
-      }
+      if(!saludado){ saludado=true; burbuja('bot', fmt('¡Hola! Soy Koni, el asistente de Konecta. Pregúntame sobre planes, precios, cómo conectar tu WhatsApp, Shopify o redes. Y si te atascas, mándame una captura y te voy guiando. ¿En qué te ayudo?')); }
       setTimeout(function(){ var t=document.getElementById('koni-text'); if(t) t.focus(); }, 100);
     }
   }
+  function adjuntar(input){
+    var f = input.files && input.files[0]; if(!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      var img = new Image();
+      img.onload = function(){
+        var max=1280, w=img.width, h=img.height;
+        if(w>max||h>max){ if(w>=h){ h=Math.round(h*max/w); w=max; } else { w=Math.round(w*max/h); h=max; } }
+        var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+        cv.getContext('2d').drawImage(img,0,0,w,h);
+        imgPend = cv.toDataURL('image/jpeg', 0.82);
+        document.getElementById('koni-prev').innerHTML =
+          '<div class="chip-img"><img src="'+imgPend+'"><span>Captura lista</span><b onclick="KoniChat.quitarImg()">quitar</b></div>';
+      };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+    input.value='';
+  }
+  function quitarImg(){ imgPend=null; var p=document.getElementById('koni-prev'); if(p) p.innerHTML=''; }
+
   async function enviar(){
     if(enviando) return;
     var inp = document.getElementById('koni-text');
     var texto = (inp.value||'').trim();
-    if(!texto) return;
-    inp.value=''; pinta('user', texto); hist.push({de:'user', texto:texto});
+    if(!texto && !imgPend) return;
+    var imagen = imgPend;
+    if(imagen) burbuja('user', '<img src="'+imagen+'">');
+    if(texto) burbuja('user', esc(texto));
+    hist.push({de:'user', texto: texto || '[captura]'});
+    inp.value=''; quitarImg();
     enviando = true; document.getElementById('koni-send').disabled = true;
-    var cargando = pinta('bot','…');
+    var cargando = burbuja('bot','…');
     try{
       var r = await fetch(API, {method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({texto:texto, historial:hist.slice(-8)})});
+        body: JSON.stringify({texto:texto, imagen:imagen||'', historial:hist.slice(-8)})});
       var d = await r.json();
-      cargando.innerHTML = esc(d.respuesta || '¿En qué más te ayudo?');
+      cargando.innerHTML = fmt(d.respuesta || '¿En qué más te ayudo?');
       hist.push({de:'bot', texto:d.respuesta||''});
     }catch(e){
-      cargando.innerHTML = 'Ups, no pude responder. Escríbenos a gerencia@konectabot.app 🙏';
+      cargando.innerHTML = 'Ups, no pude responder. Escríbenos a gerencia@konectabot.app';
     }finally{
-      enviando = false; document.getElementById('koni-send').disabled = false;
+      enviando=false; document.getElementById('koni-send').disabled=false;
       var c=document.getElementById('koni-msgs'); c.scrollTop=c.scrollHeight; inp.focus();
     }
   }
-  return { toggle: toggle, enviar: enviar };
+  return { toggle:toggle, enviar:enviar, adjuntar:adjuntar, quitarImg:quitarImg };
 })();
 </script>
 
