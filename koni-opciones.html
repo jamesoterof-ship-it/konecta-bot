@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opciones botón Koni</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#eef2f5;color:#16232E;padding:24px}
+  h1{font-size:20px;margin-bottom:6px}
+  p.sub{color:#5b6b78;margin-bottom:22px;font-size:14px}
+  .opt{margin-bottom:30px;background:#fff;border:1px solid #e2e9ee;border-radius:16px;overflow:hidden}
+  .opt h2{font-size:15px;padding:14px 18px;background:#f6f9fb;border-bottom:1px solid #e2e9ee}
+  .row{display:grid;grid-template-columns:1fr 1fr}
+  @media(max-width:640px){.row{grid-template-columns:1fr}}
+  .cell{min-height:150px;display:flex;align-items:center;justify-content:center;padding:24px}
+  .cell.dark{background:#1b2a36}
+  .cell.light{background:#ffffff}
+  .cell .tag{position:absolute;font-size:11px;color:#9aa7b2;margin:-110px 0 0 -90px}
+
+  /* ---- Opción 1: Pastilla verde sólida ---- */
+  .b1{display:inline-flex;align-items:center;gap:11px;background:#6CC24A;border-radius:46px;
+      padding:7px 22px 7px 7px;box-shadow:0 10px 26px rgba(108,194,74,.45);cursor:pointer}
+  .b1 .ic{width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+  .b1 .ic img{width:36px;height:36px;object-fit:contain}
+  .b1 .tx b{display:block;color:#fff;font-size:14px}
+  .b1 .tx span{color:#eafff0;font-size:12px;font-weight:700}
+
+  /* ---- Opción 2: Pastilla oscura (navy) ---- */
+  .b2{display:inline-flex;align-items:center;gap:11px;background:#16232E;border-radius:46px;
+      padding:7px 22px 7px 7px;box-shadow:0 10px 26px rgba(0,0,0,.32);cursor:pointer}
+  .b2 .ic{width:48px;height:48px;border-radius:50%;background:#0e1820;border:2px solid #6CC24A;
+      display:flex;align-items:center;justify-content:center}
+  .b2 .ic img{width:34px;height:34px;object-fit:contain}
+  .b2 .tx b{display:block;color:#fff;font-size:14px}
+  .b2 .tx span{color:#8bd64f;font-size:12px;font-weight:700}
+
+  /* ---- Opción 3: Botón redondo + globito ---- */
+  .b3{display:inline-flex;align-items:center;gap:10px;cursor:pointer}
+  .b3 .bubble{background:#fff;border:1px solid #e6edf2;border-radius:12px;padding:9px 15px;
+      font-size:13px;color:#16232E;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.15);white-space:nowrap}
+  .b3 .circle{width:62px;height:62px;border-radius:50%;background:#16232E;border:3px solid #6CC24A;
+      display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(0,0,0,.3)}
+  .b3 .circle img{width:42px;height:42px;object-fit:contain}
+</style>
+</head>
+<body>
+  <h1>Botón de soporte — 3 opciones</h1>
+  <p class="sub">Cada una mostrada en fondo oscuro (izquierda) y blanco (derecha). Dime el número que más te guste.</p>
+
+  <div class="opt">
+    <h2>Opción 1 · Pastilla verde sólida</h2>
+    <div class="row">
+      <div class="cell dark">
+        <div class="b1"><span class="ic"><img src="assets/koni-logo.png"></span>
+          <span class="tx"><b>¿Necesitas ayuda?</b><span>Soporte de Konecta</span></span></div>
+      </div>
+      <div class="cell light">
+        <div class="b1"><span class="ic"><img src="assets/koni-logo.png"></span>
+          <span class="tx"><b>¿Necesitas ayuda?</b><span>Soporte de Konecta</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <h2>Opción 2 · Pastilla oscura (elegante)</h2>
+    <div class="row">
+      <div class="cell dark">
+        <div class="b2"><span class="ic"><img src="assets/koni-logo.png"></span>
+          <span class="tx"><b>¿Necesitas ayuda?</b><span>Soporte de Konecta</span></span></div>
+      </div>
+      <div class="cell light">
+        <div class="b2"><span class="ic"><img src="assets/koni-logo.png"></span>
+          <span class="tx"><b>¿Necesitas ayuda?</b><span>Soporte de Konecta</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <h2>Opción 3 · Botón redondo + globo (minimal)</h2>
+    <div class="row">
+      <div class="cell dark">
+        <div class="b3"><span class="bubble">¿Necesitas ayuda?</span>
+          <span class="circle"><img src="assets/koni-logo.png"></span></div>
+      </div>
+      <div class="cell light">
+        <div class="b3"><span class="bubble">¿Necesitas ayuda?</span>
+          <span class="circle"><img src="assets/koni-logo.png"></span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
