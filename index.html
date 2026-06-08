@@ -874,15 +874,16 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
 
 <!-- ===== Bot de soporte (Koni) — chat con IA que conoce todo Konecta ===== -->
 <style>
-  #koni-launch{position:fixed;bottom:24px;right:24px;z-index:1600;display:flex;align-items:center;gap:11px;
+  #koni-launch{position:fixed;bottom:24px;right:24px;z-index:1600;display:flex;align-items:center;gap:10px;
     cursor:pointer;transition:transform .2s}
   #koni-launch:hover{transform:translateY(-2px)}
-  #koni-launch .lzic{width:54px;height:54px;border-radius:50%;background:#fff;border:2.5px solid #8bd64f;
-    display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 6px 18px rgba(22,35,46,.25)}
-  #koni-launch .lzic img{width:38px;height:38px;object-fit:contain}
-  #koni-launch .lz{display:flex;flex-direction:column;line-height:1.25}
-  #koni-launch .lz b{font-size:15px;color:#8bd64f;font-weight:800}
-  #koni-launch .lz span{font-size:13px;color:#8bd64f;font-weight:800}
+  #koni-launch .lz{display:flex;flex-direction:column;line-height:1.25;background:#fff;border-radius:13px;
+    padding:9px 16px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+  #koni-launch .lz b{font-size:13.5px;color:#16232E;font-weight:800}
+  #koni-launch .lz span{font-size:11.5px;color:#5cb338;font-weight:700}
+  #koni-launch .lzic{width:60px;height:60px;border-radius:50%;background:#16232E;border:3px solid #6CC24A;
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 10px 26px rgba(0,0,0,.3)}
+  #koni-launch .lzic img{width:40px;height:40px;object-fit:contain}
   @media(max-width:480px){ #koni-launch .lz{display:none} }
   #koni-panel{position:fixed;bottom:96px;right:24px;z-index:1600;width:360px;max-width:calc(100vw - 32px);
     height:520px;max-height:calc(100vh - 130px);background:#fff;border-radius:18px;overflow:hidden;
@@ -915,8 +916,8 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
 </style>
 
 <div id="koni-launch" onclick="KoniChat.toggle()" aria-label="Soporte de Konecta">
+  <span class="lz"><b>¿Necesitas ayuda?</b><span>Soporte de Konecta</span></span>
   <span class="lzic"><img src="assets/koni-logo.png" alt="Konecta"></span>
-  <span class="lz"><b>¿Tienes dudas?</b><span>Escríbenos aquí</span></span>
 </div>
 <div id="koni-panel">
   <div id="koni-head">
