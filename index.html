@@ -875,16 +875,15 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
 <!-- ===== Bot de soporte (Koni) — chat con IA que conoce todo Konecta ===== -->
 <style>
   #koni-launch{position:fixed;bottom:24px;right:24px;z-index:1600;display:flex;align-items:center;gap:11px;
-    background:#fff;border:1px solid #e6edf2;border-radius:44px;padding:8px 20px 8px 8px;
-    box-shadow:0 10px 30px rgba(22,35,46,.2);cursor:pointer;transition:transform .2s}
+    cursor:pointer;transition:transform .2s}
   #koni-launch:hover{transform:translateY(-2px)}
-  #koni-launch .lzic{width:46px;height:46px;border-radius:50%;background:#16232E;display:flex;
-    align-items:center;justify-content:center;flex:0 0 auto}
-  #koni-launch .lzic img{width:34px;height:34px;object-fit:contain}
-  #koni-launch .lz{display:flex;flex-direction:column;line-height:1.2}
+  #koni-launch .lzic{width:56px;height:56px;border-radius:50%;background:#16232E;display:flex;
+    align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 8px 24px rgba(22,35,46,.32)}
+  #koni-launch .lzic img{width:40px;height:40px;object-fit:contain}
+  #koni-launch .lz{display:flex;flex-direction:column;line-height:1.2;text-shadow:0 1px 2px rgba(255,255,255,.6)}
   #koni-launch .lz b{font-size:14px;color:#16232E}
-  #koni-launch .lz span{font-size:12px;color:#6CC24A;font-weight:700}
-  @media(max-width:480px){ #koni-launch .lz{display:none} #koni-launch{padding:8px} }
+  #koni-launch .lz span{font-size:12px;color:#5aa636;font-weight:700}
+  @media(max-width:480px){ #koni-launch .lz{display:none} }
   #koni-panel{position:fixed;bottom:96px;right:24px;z-index:1600;width:360px;max-width:calc(100vw - 32px);
     height:520px;max-height:calc(100vh - 130px);background:#fff;border-radius:18px;overflow:hidden;
     box-shadow:0 18px 50px rgba(0,0,0,.28);display:none;flex-direction:column;font-family:inherit}
