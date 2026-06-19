@@ -243,8 +243,9 @@ section{padding:78px 0}
 .proximo-box p{font-size:13px;color:var(--gris)}
 .badge-soon{margin-left:auto;font-size:11px;background:#fff;border:1px solid var(--borde);color:var(--gris);padding:5px 12px;border-radius:20px;white-space:nowrap}
 .shopify-left img.dropi-img{width:96px;height:96px;border-radius:50%;box-shadow:0 8px 22px rgba(245,130,30,.30)}
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.reveal{opacity:0;transform:translateY(38px);transition:opacity .7s cubic-bezier(.16,.84,.44,1),transform .7s cubic-bezier(.16,.84,.44,1)}
 .reveal.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
 
 /* CTA */
 .cta{background:linear-gradient(135deg,#16232e,#243b49);color:#fff;text-align:center}
@@ -1120,17 +1121,33 @@ function setBilling(tipo){
 </script>
 
 <script>
-/* Aparición suave al hacer scroll para los elementos .reveal (con respaldo seguro) */
+/* Scroll-reveal: las tarjetas y secciones aparecen deslizándose en cascada al bajar.
+   Con respaldo seguro (nunca deja contenido oculto). */
 (function(){
-  var els = document.querySelectorAll('.reveal');
+  var sel = '.sec-head, #funciones .feat, #como .step, #conexion .conexion-card,'
+          + ' #integraciones .shopify-box, #integraciones .proximo-box, #precios .plan,'
+          + ' #confianza .co, #redes .redes-canal';
+  var els = Array.prototype.slice.call(document.querySelectorAll(sel));
   if(!els.length) return;
+  els.forEach(function(el){ el.classList.add('reveal'); });
   if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('vis'); }); return; }
   var o = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('vis'); o.unobserve(e.target); } });
-  }, { threshold: .12 });
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target;
+      // Cascada: cada tarjeta de un mismo grupo aparece un poquito después que la anterior.
+      var sibs = el.parentNode ? Array.prototype.slice.call(el.parentNode.children).filter(function(n){
+        return n.classList && n.classList.contains('reveal');
+      }) : [el];
+      var i = sibs.indexOf(el);
+      el.style.transitionDelay = (Math.max(0, i) * 0.09) + 's';
+      el.classList.add('vis');
+      o.unobserve(el);
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -50px 0px' });
   els.forEach(function(el){ o.observe(el); });
-  // Respaldo: si algo falla, mostrar todo a los 1.5s (nunca dejar contenido oculto).
-  setTimeout(function(){ els.forEach(function(el){ el.classList.add('vis'); }); }, 1500);
+  // Respaldo: si el observer fallara, mostrar todo a los 6s (nunca dejar contenido oculto).
+  setTimeout(function(){ els.forEach(function(el){ el.classList.add('vis'); }); }, 6000);
 })();
 </script>
 
