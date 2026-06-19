@@ -242,6 +242,9 @@ section{padding:78px 0}
 .proximo-box strong{font-size:16px;display:block;margin-bottom:2px}
 .proximo-box p{font-size:13px;color:var(--gris)}
 .badge-soon{margin-left:auto;font-size:11px;background:#fff;border:1px solid var(--borde);color:var(--gris);padding:5px 12px;border-radius:20px;white-space:nowrap}
+.shopify-left img.dropi-img{width:96px;height:96px;border-radius:50%;box-shadow:0 8px 22px rgba(245,130,30,.30)}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.reveal.vis{opacity:1;transform:none}
 
 /* CTA */
 .cta{background:linear-gradient(135deg,#16232e,#243b49);color:#fff;text-align:center}
@@ -594,9 +597,9 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
 <section id="integraciones">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">Integración estrella</div>
-      <h2>Potencia tu tienda con Shopify</h2>
-      <p>Conecta tu tienda con un clic y deja que el bot haga el trabajo pesado.</p>
+      <div class="sec-tag">Integraciones</div>
+      <h2>Conecta tu tienda y tus envíos</h2>
+      <p>Shopify para tu tienda online y Dropi para vender contra entrega en toda Latinoamérica. El bot hace el trabajo pesado.</p>
     </div>
     <div class="shopify-box">
       <div class="shopify-left">
@@ -611,7 +614,20 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
         <div class="sfeat"><div class="sfeat-ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.7 1 6.4 2.6L21 8"/><path d="M21 3v5h-5"/></svg></div><div><strong>Sincroniza productos y precios</strong><p>El bot siempre conoce tu catalogo actualizado al instante.</p></div></div>
       </div>
     </div>
-    <div class="proximo-box">
+    <div class="shopify-box reveal">
+      <div class="shopify-left">
+        <img src="assets/dropi.png" alt="Dropi" class="dropi-img">
+        <h3>Dropi</h3>
+        <a href="#precios" class="sbtn"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>Conectar Dropi</a>
+      </div>
+      <div class="shopify-feats">
+        <div class="sfeat"><div class="sfeat-ico"><svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div><div><strong>Monta el pedido solo</strong><p>Cuando el bot cierra una venta, crea la orden en Dropi automáticamente, lista para despacho.</p></div></div>
+        <div class="sfeat"><div class="sfeat-ico"><svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg></div><div><strong>Seguimiento automático</strong><p>Lee el estado del envío y le avisa a tu cliente por WhatsApp: en camino, entregado y la guía de rastreo.</p></div></div>
+        <div class="sfeat"><div class="sfeat-ico"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/></svg></div><div><strong>Contra entrega, sin inventario</strong><p>Vende con pago contra entrega y dropshipping en toda Latinoamérica, sin comprar stock por adelantado.</p></div></div>
+        <div class="sfeat"><div class="sfeat-ico"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div><strong>Menos devoluciones</strong><p>Confirma los datos antes de despachar y mantén tu operación sana.</p></div></div>
+      </div>
+    </div>
+    <div class="proximo-box reveal">
       <div class="proximo-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div>
       <div><strong>Más integraciones</strong><p>Estamos sumando nuevas conexiones constantemente.</p></div>
       <span class="badge-soon">Próximamente</span>
@@ -1103,6 +1119,20 @@ function setBilling(tipo){
 }
 </script>
 
+<script>
+/* Aparición suave al hacer scroll para los elementos .reveal (con respaldo seguro) */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!els.length) return;
+  if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('vis'); }); return; }
+  var o = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('vis'); o.unobserve(e.target); } });
+  }, { threshold: .12 });
+  els.forEach(function(el){ o.observe(el); });
+  // Respaldo: si algo falla, mostrar todo a los 1.5s (nunca dejar contenido oculto).
+  setTimeout(function(){ els.forEach(function(el){ el.classList.add('vis'); }); }, 1500);
+})();
+</script>
 
 </body>
 </html>
