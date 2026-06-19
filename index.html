@@ -245,7 +245,16 @@ section{padding:78px 0}
 .shopify-left img.dropi-img{width:96px;height:96px;border-radius:50%;box-shadow:0 8px 22px rgba(245,130,30,.30)}
 .reveal{opacity:0;transform:translateY(38px);transition:opacity .7s cubic-bezier(.16,.84,.44,1),transform .7s cubic-bezier(.16,.84,.44,1)}
 .reveal.vis{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
+/* Entrada animada del HERO al cargar (en cascada, visible sin hacer scroll) */
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.hero-text>*{animation:heroIn .75s cubic-bezier(.16,.84,.44,1) backwards}
+.hero-text>.eyebrow{animation-delay:.05s}
+.hero-text>h1{animation-delay:.18s}
+.hero-text>.sub{animation-delay:.36s}
+.hero-text>.hero-benes{animation-delay:.52s}
+.hero-text>.hero-btns{animation-delay:.68s}
+.hero-text>.hero-note{animation-delay:.82s}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}.hero-text>*{opacity:1!important;animation:none!important}}
 
 /* CTA */
 .cta{background:linear-gradient(135deg,#16232e,#243b49);color:#fff;text-align:center}
