@@ -1160,5 +1160,73 @@ function setBilling(tipo){
 })();
 </script>
 
+<style>#inicio canvas.vanta-canvas, #inicio canvas{opacity:.28 !important}</style>
+<!-- ===== EFECTO NET (red/conexion) en el hero - Vanta.js ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
+<script>
+(function(){
+  function initNet(){
+    if(!(window.VANTA && window.VANTA.NET && window.THREE)) return;
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    try{
+      VANTA.NET({
+        el: '#inicio',
+        mouseControls: true, touchControls: true, gyroControls: false,
+        minHeight: 200.0, minWidth: 200.0, scale: 1.0, scaleMobile: 1.0,
+        color: 0x8bd64f,
+        backgroundColor: 0x16232e,
+        points: (window.innerWidth < 760 ? 5.0 : 7.0),
+        maxDistance: 18.0,
+        spacing: 22.0,
+        showDots: true
+      });
+    }catch(e){}
+  }
+  if(document.readyState !== "loading") initNet();
+  else window.addEventListener("DOMContentLoaded", initNet);
+})();
+</script>
+<!-- ===== CAPA DE EFECTOS (reveals + contadores + hover) ===== -->
+<style>
+.fx{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,.8,.28,1),transform .7s cubic-bezier(.16,.8,.28,1)}
+.fx.in{opacity:1;transform:none}
+.feat-grid .feat:nth-child(2),.steps .step:nth-child(2),.price-grid .plan:nth-child(2),.conexion-grid .conexion-card:nth-child(2),.stats .stat:nth-child(2){transition-delay:.08s}
+.feat-grid .feat:nth-child(3),.steps .step:nth-child(3),.price-grid .plan:nth-child(3),.stats .stat:nth-child(3){transition-delay:.16s}
+.feat-grid .feat:nth-child(4),.stats .stat:nth-child(4){transition-delay:.24s}
+.feat,.plan,.conexion-card{transition:transform .25s,box-shadow .25s,border-color .25s}
+.feat:hover,.conexion-card:hover{box-shadow:0 16px 40px rgba(108,194,74,.16) !important;border-color:rgba(108,194,74,.4) !important}
+.plan:hover{box-shadow:0 18px 46px rgba(108,194,74,.18) !important}
+.faq-item{transition:border-color .2s,box-shadow .2s}
+.faq-item:hover{border-color:rgba(108,194,74,.35) !important}
+@media(prefers-reduced-motion:reduce){.fx{opacity:1 !important;transform:none !important;transition:none !important}}
+</style>
+<script src="fx.js?v=7"></script>
+<link rel="stylesheet" href="redesign.css?v=7">
+<!-- ===== EFECTO NET tambien en el CTA final ===== -->
+<style>
+.cta{position:relative !important;overflow:hidden !important}
+.cta .wrap{position:relative;z-index:2}
+.cta canvas{opacity:.28 !important;z-index:0}
+</style>
+<script>
+(function(){
+  function initCta(){
+    if(!(window.VANTA && window.VANTA.NET && window.THREE)){ setTimeout(initCta,200); return; }
+    if(matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+    try{
+      VANTA.NET({
+        el: ".cta",
+        mouseControls: true, touchControls: true, gyroControls: false,
+        minHeight: 200.0, minWidth: 200.0, scale: 1.0, scaleMobile: 1.0,
+        color: 0x8bd64f, backgroundColor: 0x14222e,
+        points: (window.innerWidth < 760 ? 5.0 : 7.0), maxDistance: 18.0, spacing: 22.0, showDots: true
+      });
+    }catch(e){}
+  }
+  if(document.readyState !== "loading") initCta();
+  else window.addEventListener("DOMContentLoaded", initCta);
+})();
+</script>
 </body>
 </html>

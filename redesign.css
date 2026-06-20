@@ -1,0 +1,295 @@
+/* ============================================================
+   KONECTA — REDISEÑO VISUAL (NO toca el hero #inicio)
+   Look moderno: profundidad, glow verde, tarjetas premium.
+   Carga después del CSS original => gana en el cascade.
+   ============================================================ */
+
+/* fondo general con un degradado muy sutil */
+body{background:linear-gradient(180deg,#ffffff 0%,#f3f8f4 100%) !important}
+
+/* secciones con un poco más de aire */
+section:not(.hero):not(.stats){padding:88px 0 !important}
+
+/* secciones claras con "orbes" verdes sutiles (profundidad) */
+.bg-soft{position:relative;overflow:hidden;background:#f2f8f4 !important}
+.bg-soft::before{content:"";position:absolute;top:-140px;right:-120px;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,194,74,.14),transparent 70%);pointer-events:none;z-index:0}
+.bg-soft::after{content:"";position:absolute;bottom:-160px;left:-130px;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,194,74,.10),transparent 70%);pointer-events:none;z-index:0}
+.bg-soft .wrap{position:relative;z-index:1}
+
+/* encabezados de sección con acento dorado-verde */
+.sec-head h2{font-size:38px !important;letter-spacing:-.6px !important}
+.sec-head h2::after{content:"";display:block;width:56px;height:4px;margin:16px auto 0;border-radius:4px;
+  background:linear-gradient(90deg,#6cc24a,#8bd64f)}
+.sec-tag{display:inline-block;background:rgba(108,194,74,.1);border:1px solid rgba(108,194,74,.28);
+  padding:6px 16px;border-radius:30px}
+
+/* ===== TARJETAS DE FUNCIÓN (premium) ===== */
+.feat{border-radius:22px !important;border:1px solid #e6efe9 !important;
+  background:linear-gradient(180deg,#ffffff,#f7fbf8) !important;
+  box-shadow:0 8px 26px rgba(22,35,46,.07) !important;position:relative;overflow:hidden;
+  transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s !important}
+.feat::after{content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#6cc24a,#8bd64f);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.feat:hover::after{transform:scaleX(1)}
+.feat:hover{transform:translateY(-10px) !important;border-color:transparent !important;
+  box-shadow:0 26px 56px rgba(108,194,74,.22) !important}
+.feat .ico{width:58px !important;height:58px !important;border-radius:17px !important;
+  background:linear-gradient(135deg,#8bd64f,#3b8a2e) !important;
+  box-shadow:0 12px 26px rgba(108,194,74,.42) !important;transition:transform .3s}
+.feat:hover .ico{transform:translateY(-3px) scale(1.06)}
+.feat h3{font-size:18.5px !important}
+
+/* ===== STATS como tarjetas con brillo ===== */
+.stats{background:linear-gradient(160deg,#16232e,#1f3340) !important;padding:40px 0 !important;position:relative;overflow:hidden}
+.stats::before{content:"";position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:600px;height:300px;
+  background:radial-gradient(circle,rgba(108,194,74,.16),transparent 65%);pointer-events:none}
+.stat{position:relative;z-index:1;padding:18px 14px;border-radius:18px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(108,194,74,.18);backdrop-filter:blur(4px)}
+.stat .num{font-size:42px !important;background:linear-gradient(180deg,#bdf08f,#6cc24a);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+/* ===== PASOS conectados ===== */
+.steps{position:relative}
+.steps::before{content:"";position:absolute;top:33px;left:16%;right:16%;height:2px;
+  background:repeating-linear-gradient(90deg,rgba(108,194,74,.5) 0 8px,transparent 8px 16px);z-index:0}
+.step{position:relative;z-index:1}
+.step .circle{width:68px !important;height:68px !important;
+  box-shadow:0 0 0 6px rgba(108,194,74,.12),0 12px 28px rgba(108,194,74,.4) !important;
+  transition:transform .3s}
+.step:hover .circle{transform:scale(1.08)}
+
+/* ===== TARJETAS DE CONEXIÓN ===== */
+.conexion-card{border-radius:20px !important;border:1px solid #e6efe9 !important;
+  box-shadow:0 8px 26px rgba(22,35,46,.07) !important;transition:transform .28s,box-shadow .28s,border-color .28s !important}
+.conexion-card:hover{transform:translateY(-8px) !important;border-color:rgba(108,194,74,.4) !important;
+  box-shadow:0 22px 50px rgba(108,194,74,.18) !important}
+
+/* ===== PLANES (precios) premium ===== */
+.plan{border-radius:22px !important;border:1px solid #e6efe9 !important;
+  box-shadow:0 10px 30px rgba(22,35,46,.07) !important;
+  transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s !important}
+.plan:hover{transform:translateY(-10px) !important;box-shadow:0 26px 56px rgba(108,194,74,.2) !important}
+.plan.pop{border:2.5px solid transparent !important;
+  background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,#6cc24a,#8bd64f) border-box !important;
+  box-shadow:0 22px 54px rgba(108,194,74,.26) !important;transform:scale(1.03)}
+.plan.pop:hover{transform:scale(1.03) translateY(-8px) !important}
+.plan .badge{box-shadow:0 8px 20px rgba(108,194,74,.45) !important}
+
+/* ===== FAQ moderno ===== */
+.faq-item{border-radius:14px !important;border:1px solid #e6efe9 !important;background:#fff !important;
+  margin-bottom:12px !important;box-shadow:0 4px 14px rgba(22,35,46,.05) !important;
+  transition:border-color .25s,box-shadow .25s !important}
+.faq-item:hover{border-color:rgba(108,194,74,.4) !important;box-shadow:0 10px 26px rgba(108,194,74,.12) !important}
+
+/* ===== CONFIANZA (íconos) ===== */
+.conf-ico{filter:drop-shadow(0 8px 18px rgba(108,194,74,.3))}
+
+/* ===== FUNCIONES: sección OSCURA con tarjetas glass (look bold) ===== */
+#funciones{background:linear-gradient(165deg,#16232e 0%,#1f3340 100%) !important;position:relative;overflow:hidden}
+#funciones::before{content:"";position:absolute;top:-140px;right:-120px;width:460px;height:460px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,194,74,.18),transparent 68%);pointer-events:none}
+#funciones .wrap{position:relative;z-index:1}
+#funciones .sec-tag{color:#8bd64f !important;background:rgba(108,194,74,.14) !important;border-color:rgba(108,194,74,.34) !important}
+#funciones .sec-head h2{color:#fff !important}
+#funciones .sec-head p{color:#c5d2da !important}
+#funciones .feat{background:rgba(255,255,255,.045) !important;border:1px solid rgba(108,194,74,.2) !important;
+  box-shadow:0 14px 40px rgba(0,0,0,.35) !important;backdrop-filter:blur(6px)}
+#funciones .feat:hover{box-shadow:0 26px 60px rgba(108,194,74,.28) !important;border-color:rgba(108,194,74,.5) !important}
+#funciones .feat h3{color:#fff !important}
+#funciones .feat p{color:#a8b8c0 !important}
+
+/* ===== DEMO ("Mira cómo el bot vende solo") en OSCURO ===== */
+#demo{background:linear-gradient(165deg,#16232e 0%,#1f3340 100%) !important;position:relative;overflow:hidden}
+#demo::before{content:"";position:absolute;top:-140px;left:-120px;width:460px;height:460px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,194,74,.16),transparent 68%);pointer-events:none}
+#demo::after{content:"";position:absolute;bottom:-160px;right:-120px;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,194,74,.10),transparent 70%);pointer-events:none}
+#demo .wrap,#demo .sec-head,#demo .demo-wrap{position:relative;z-index:1}
+#demo .sec-tag{color:#8bd64f !important;background:rgba(108,194,74,.14) !important;border-color:rgba(108,194,74,.34) !important}
+#demo .sec-head h2{color:#fff !important}
+#demo .sec-head p{color:#c5d2da !important}
+#demo .demo-side h3{color:#fff !important}
+#demo .demo-side p{color:#a8b8c0 !important}
+#demo .demo-checks li{color:#c5d2da !important}
+#demo .demo-phone{box-shadow:0 30px 64px rgba(0,0,0,.5) !important;border-color:#0e1a22 !important}
+
+/* ===== REDES + INTEGRACIONES en OSCURO con efecto AURORA (verde que fluye) ===== */
+#redes,#integraciones{background:#13202a !important;position:relative;overflow:hidden}
+#redes::before,#integraciones::before{content:"";position:absolute;inset:-12%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(440px 340px at 20% 25%, rgba(108,194,74,.20), transparent 60%),
+    radial-gradient(480px 380px at 82% 72%, rgba(60,160,90,.18), transparent 62%),
+    radial-gradient(400px 320px at 62% 12%, rgba(139,214,79,.13), transparent 60%);
+  animation:aurora 16s ease-in-out infinite alternate}
+#redes::after,#integraciones::after{content:none !important}
+@keyframes aurora{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-3%,2%,0) scale(1.08)}100%{transform:translate3d(3%,-2%,0) scale(1.05)}}
+#redes .wrap,#integraciones .wrap{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){#redes::before,#integraciones::before{animation:none}}
+
+#redes .sec-tag,#integraciones .sec-tag{color:#8bd64f !important;background:rgba(108,194,74,.14) !important;border-color:rgba(108,194,74,.34) !important}
+#redes .sec-head h2,#integraciones .sec-head h2{color:#fff !important}
+#redes .sec-head p,#integraciones .sec-head p{color:#c5d2da !important}
+#redes .redes-canal strong{color:#fff !important}
+#redes .redes-canal span{color:#a8b8c0 !important}
+
+#integraciones .shopify-box{background:rgba(255,255,255,.05) !important;border:1px solid rgba(108,194,74,.20) !important;box-shadow:0 16px 44px rgba(0,0,0,.35) !important}
+#integraciones .shopify-left h3{color:#fff !important}
+#integraciones .shopify-left p{color:#a8b8c0 !important}
+#integraciones .sfeat strong{color:#fff !important}
+#integraciones .sfeat p{color:#a8b8c0 !important}
+#integraciones .sfeat-ico{background:rgba(255,255,255,.08) !important;border-color:rgba(108,194,74,.25) !important}
+#integraciones .sfeat-ico svg{stroke:#8bd64f !important}
+#integraciones .proximo-box{background:rgba(255,255,255,.04) !important;border:1px solid rgba(108,194,74,.18) !important}
+#integraciones .proximo-box strong{color:#fff !important}
+#integraciones .proximo-box p{color:#a8b8c0 !important}
+
+/* ===== AJUSTES (feedback): auroras sutiles, iconos quietos y sin cambiar ===== */
+/* Aurora de BANDAS de luz diagonales (sin círculos posibles), con movimiento suave */
+#redes::before,#integraciones::before{
+  content:"" !important;position:absolute !important;inset:0 !important;
+  width:auto !important;height:auto !important;border-radius:0 !important;
+  z-index:0 !important;pointer-events:none;
+  background:
+    linear-gradient(115deg, rgba(108,194,74,.16) 0%, transparent 32%),
+    linear-gradient(255deg, rgba(64,168,96,.13) 0%, transparent 34%),
+    linear-gradient(180deg, transparent 52%, rgba(139,214,79,.07) 100%) !important;
+  background-size:200% 200% !important;background-repeat:no-repeat !important;
+  animation:aurora3 18s ease-in-out infinite alternate !important;opacity:1 !important;display:block !important}
+#redes::after,#integraciones::after{content:none !important}
+@keyframes aurora3{0%{background-position:0% 0%}100%{background-position:100% 55%}}
+#redes .wrap,#integraciones .wrap{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){#redes::before,#integraciones::before{animation:none !important}}
+/* Redes: iconos QUIETOS y como son (sin halo, sin movimiento) */
+#redes .redes-canal::before{display:none !important}
+#redes .redes-canal img{animation:none !important;transition:none !important}
+#redes .redes-canal img:hover{transform:none !important}
+/* ===== "EFECTO DE FUNCIONES" en las tarjetas e iconos (permanente) ===== */
+/* tarjetas oscuras: borde + glow verde permanente */
+#funciones .feat,#integraciones .shopify-box,#integraciones .proximo-box{
+  position:relative;border-color:rgba(108,194,74,.22) !important;
+  box-shadow:0 16px 44px rgba(0,0,0,.35),0 0 0 1px rgba(108,194,74,.12) !important}
+/* acento verde superior SIEMPRE visible */
+#funciones .feat::after{transform:scaleX(1) !important;opacity:1 !important}
+#integraciones .shopify-box::before,#integraciones .proximo-box::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:24px 24px 0 0;
+  background:linear-gradient(90deg,#6cc24a,#8bd64f);z-index:2}
+#funciones .feat:hover,#integraciones .shopify-box:hover,#integraciones .proximo-box:hover{
+  box-shadow:0 26px 60px rgba(108,194,74,.26) !important;border-color:rgba(108,194,74,.5) !important}
+/* iconos de Integraciones = badge verde (como Funciones) */
+#integraciones .sfeat-ico{background:linear-gradient(135deg,#8bd64f,#3b8a2e) !important;border:none !important;
+  box-shadow:0 8px 20px rgba(108,194,74,.4) !important}
+#integraciones .sfeat-ico svg{stroke:#ffffff !important}
+
+/* Iconos de Redes: ORIGINALES, sin tile (solo quietos) */
+#redes .rc-ico{background:none !important;box-shadow:none !important}
+
+/* ===== REDES como TARJETAS (efecto de Funciones, reacciona al pasar/clic) ===== */
+#redes .redes-canales{gap:22px !important;align-items:stretch !important}
+#redes .redes-canal{
+  background:rgba(255,255,255,.045) !important;border:1px solid rgba(108,194,74,.2) !important;
+  border-radius:20px !important;padding:26px 22px !important;min-width:180px;
+  position:relative;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.32) !important;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s !important;cursor:pointer}
+#redes .redes-canal::after{content:"" !important;position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#6cc24a,#8bd64f);transform:scaleX(0);transform-origin:left;transition:transform .3s;display:block !important}
+#redes .redes-canal:hover,#redes .redes-canal:active{
+  transform:translateY(-8px) !important;border-color:rgba(108,194,74,.5) !important;
+  box-shadow:0 24px 56px rgba(108,194,74,.24) !important}
+#redes .redes-canal:hover::after,#redes .redes-canal:active::after{transform:scaleX(1)}
+
+/* ===== CONFIG: robot con vida + opciones premium ===== */
+.config-robot img{animation:robotFloat 5.5s ease-in-out infinite;
+  filter:drop-shadow(0 18px 34px rgba(22,35,46,.18)) drop-shadow(0 0 28px rgba(108,194,74,.30)) !important}
+@keyframes robotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.config-opt{border-radius:16px !important;transition:transform .25s,box-shadow .25s,border-color .25s !important}
+.config-opt:hover{transform:translateY(-5px) !important;box-shadow:0 16px 36px rgba(108,194,74,.16) !important;border-color:rgba(108,194,74,.4) !important}
+
+/* ===== CONEXIÓN: las tarjetas entran desde los lados ===== */
+.conexion-grid .conexion-card:nth-child(1).fx{transform:translateX(-64px) scale(.96)}
+.conexion-grid .conexion-card:nth-child(2).fx{transform:translateX(64px) scale(.96)}
+.conexion-grid .conexion-card.fx.in{transform:none}
+
+/* ===== REDES: iconos flotan + halo + pop, badge late ===== */
+.redes-canal{position:relative}
+.redes-canales .redes-canal:nth-child(2){transition-delay:.1s}
+.redes-canales .redes-canal:nth-child(3){transition-delay:.2s}
+.redes-canal::before{content:"";position:absolute;top:-6px;left:50%;width:74px;height:74px;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(108,194,74,.22),transparent 65%);z-index:0;animation:haloPulse 3s ease-in-out infinite}
+.redes-canal img{position:relative;z-index:1;animation:icoFloat 4s ease-in-out infinite;transition:transform .25s}
+.redes-canal:nth-child(2) img{animation-delay:.5s}
+.redes-canal:nth-child(3) img{animation-delay:1s}
+.redes-canal img:hover{transform:translateY(-8px) scale(1.12) rotate(-4deg)}
+@keyframes icoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes haloPulse{0%,100%{transform:translateX(-50%) scale(1);opacity:.5}50%{transform:translateX(-50%) scale(1.14);opacity:.85}}
+.redes-badge{animation:badgeBeat 1.8s ease-in-out infinite}
+@keyframes badgeBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+/* ===== FAQ: resaltar abierta + más suave + hover ===== */
+.faq-item{transition:border-color .25s,box-shadow .25s,transform .2s !important}
+.faq-item:hover{transform:translateY(-2px) !important}
+.faq-item.open{border-color:rgba(108,194,74,.55) !important;border-left:4px solid #6cc24a !important;
+  box-shadow:0 12px 32px rgba(108,194,74,.15) !important;background:linear-gradient(180deg,#ffffff,#f4fbf2) !important}
+.faq-item.open .faq-q{color:var(--verde-osc)}
+.faq-item.open .faq-a{max-height:600px !important}
+
+/* ===== SOPORTE: FAB con pulso, glow y punto "online" ===== */
+#koni-launch > img{border-radius:50% !important;background:#fff !important;padding:9px !important;
+  box-shadow:0 12px 28px rgba(108,194,74,.45),0 0 0 1px rgba(108,194,74,.25) !important;
+  animation:koniBob 3.2s ease-in-out infinite;transition:transform .2s}
+#koni-launch::before{content:"";position:absolute;left:0;top:50%;width:64px;height:64px;transform:translateY(-50%);
+  border-radius:50%;animation:koniPulse 2.2s infinite;z-index:0;pointer-events:none}
+#koni-launch::after{content:"";position:absolute;left:47px;top:5px;width:14px;height:14px;border-radius:50%;
+  background:#2ecc57;border:2.5px solid #fff;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+#koni-launch:hover > img{transform:scale(1.08)}
+@keyframes koniBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes koniPulse{0%{box-shadow:0 0 0 0 rgba(108,194,74,.5)}70%{box-shadow:0 0 0 18px rgba(108,194,74,0)}100%{box-shadow:0 0 0 0 rgba(108,194,74,0)}}
+
+/* ===== FOOTER con el mismo degradado oscuro del hero/CTA ===== */
+footer{background:linear-gradient(160deg,#16232e 0%,#1f3340 55%,#243b49 100%) !important}
+
+/* ===== NAV oscuro con degradado verde, translúcido (transparente arriba, tenue al scroll) ===== */
+header{
+  background:linear-gradient(90deg,rgba(15,23,29,.30) 0%,rgba(20,40,28,.32) 100%) !important;
+  backdrop-filter:blur(12px) saturate(140%) !important;-webkit-backdrop-filter:blur(12px) saturate(140%) !important;
+  border-bottom:1px solid rgba(108,194,74,.14) !important;box-shadow:none !important;
+  transition:background .3s,box-shadow .3s,border-color .3s !important}
+header.scrolled{
+  background:linear-gradient(90deg,rgba(13,20,26,.74) 0%,rgba(18,38,26,.74) 100%) !important;
+  border-bottom-color:rgba(108,194,74,.24) !important;box-shadow:0 6px 26px rgba(0,0,0,.22) !important}
+header .logo-nav{color:#fff !important}
+header .nav-links a:not(.btn){color:#d8e4dd !important}
+header .nav-links a:not(.btn):hover{color:#8bd64f !important}
+header .btn-line{background:rgba(255,255,255,.10) !important;border-color:rgba(255,255,255,.30) !important;color:#fff !important}
+header .btn-line:hover{background:rgba(255,255,255,.18) !important;border-color:#fff !important;color:#fff !important}
+header .menu-toggle{color:#fff !important}
+
+/* ===== DESTELLOS (brillo que cruza) en botones, pills y badges ===== */
+.btn-verde{position:relative;overflow:hidden}
+.btn-verde::after{content:"";position:absolute;top:0;left:-140%;width:55%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);
+  animation:btnShine 3.6s ease-in-out infinite;pointer-events:none;z-index:1}
+@keyframes btnShine{0%{left:-140%}55%,100%{left:170%}}
+
+/* pill "¿Solo quieres redes sociales?" con destello + glow */
+.modo-titulo h3{position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(108,194,74,.18) !important}
+.modo-titulo h3::after{content:"";position:absolute;top:0;left:-140%;width:50%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(108,194,74,.38),transparent);transform:skewX(-20deg);
+  animation:btnShine 4s ease-in-out infinite;pointer-events:none}
+
+/* badge "NUEVO" / etiquetas de plan: laten + destellan */
+.badge{animation:badgeBeat 1.6s ease-in-out infinite;position:relative;overflow:hidden}
+.badge::after{content:"";position:absolute;top:0;left:-150%;width:60%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);
+  animation:btnShine 2.8s ease-in-out infinite;pointer-events:none}
+
+/* CONFIG: las 3 opciones se resaltan solas (auto-select) */
+.config-opt.active{border-color:var(--verde) !important;background:linear-gradient(180deg,#fff,#f2fbef) !important;
+  box-shadow:0 12px 28px rgba(108,194,74,.2) !important;transform:translateY(-4px) !important}
+
+@media(prefers-reduced-motion:reduce){
+  .config-robot img,.redes-canal img,.redes-canal::before,.redes-badge,#koni-launch>img,#koni-launch::before,
+  .btn-verde::after,.modo-titulo h3::after,.badge,.badge::after,.config-opt.active{animation:none !important}
+}
+@media(max-width:760px){ .sec-head h2{font-size:28px !important} .steps::before{display:none} }
