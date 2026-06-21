@@ -293,3 +293,35 @@ header .menu-toggle{color:#fff !important}
   .btn-verde::after,.modo-titulo h3::after,.badge,.badge::after,.config-opt.active{animation:none !important}
 }
 @media(max-width:760px){ .sec-head h2{font-size:28px !important} .steps::before{display:none} }
+
+/* ===== Creador de anuncios con IA (complemento) ===== */
+#anuncios{background:linear-gradient(165deg,#16232e 0%,#1f3340 100%) !important;position:relative;overflow:hidden}
+#anuncios::before{content:"";position:absolute;top:-150px;left:-120px;width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,194,74,.18),transparent 70%);pointer-events:none}
+#anuncios::after{content:"";position:absolute;bottom:-170px;right:-130px;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(10,132,255,.12),transparent 70%);pointer-events:none}
+#anuncios .wrap{position:relative;z-index:1}
+#anuncios .sec-tag{color:#8bd64f !important;background:rgba(108,194,74,.14) !important;border-color:rgba(108,194,74,.34) !important}
+#anuncios .sec-head h2{color:#fff !important}
+#anuncios .sec-head p{color:#c5d2da !important}
+#anuncios .feat{background:rgba(255,255,255,.045) !important;border:1px solid rgba(108,194,74,.2) !important}
+#anuncios .feat h3{color:#fff !important}
+#anuncios .feat p{color:#a8b8c0 !important}
+#anuncios .feat:hover{box-shadow:0 26px 60px rgba(108,194,74,.28) !important;border-color:rgba(108,194,74,.5) !important}
+/* pasos */
+.ads-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0 34px}
+.ads-step{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.04);
+  border:1px solid rgba(108,194,74,.18);border-radius:16px;padding:18px}
+.ads-step .ads-n{flex:0 0 30px;width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,#8bd64f,#3b8a2e);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+.ads-step strong{color:#fff;font-size:14.5px;display:block;margin-bottom:3px}
+.ads-step p{color:#a8b8c0;font-size:13px;line-height:1.45;margin:0}
+/* embudo */
+.ads-funnel{margin-top:34px;background:rgba(108,194,74,.08);border:1px solid rgba(108,194,74,.28);
+  border-radius:18px;padding:22px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;text-align:center}
+.ads-funnel .step{color:#eaf2f8;font-weight:700;font-size:14.5px}
+.ads-funnel .arrow{color:#8bd64f;font-weight:800;font-size:16px}
+.ads-funnel .cap{flex-basis:100%;color:#a8b8c0;font-size:13px;margin-top:6px}
+.ads-cta{text-align:center;margin-top:32px}
+@media(max-width:820px){.ads-steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.ads-steps{grid-template-columns:1fr}}
