@@ -171,6 +171,13 @@ section{padding:78px 0}
 .msg{max-width:78%;padding:9px 13px;border-radius:12px;font-size:13.5px;line-height:1.45;opacity:0;transform:translateY(10px);animation:msgIn .4s forwards}
 .msg.cli{background:#1f2c33;color:#e9edef;align-self:flex-start;border-bottom-left-radius:3px}
 .msg.bot{background:#055e44;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.msg.voz{display:flex;align-items:center;gap:9px;min-width:165px}
+.voz-play{width:26px;height:26px;flex:0 0 26px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px}
+.voz-wave{flex:1;display:flex;align-items:center;gap:2px;height:22px}
+.voz-wave i{flex:1;min-width:2px;background:currentColor;opacity:.5;border-radius:2px;transform-origin:center}
+.msg.voz.playing .voz-wave i{animation:vozBar .85s ease-in-out infinite}
+@keyframes vozBar{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+.voz-dur{font-size:11px;opacity:.75;flex:0 0 auto}
 @keyframes msgIn{to{opacity:1;transform:translateY(0)}}
 .demo-side h3{font-size:25px;font-weight:800;margin-bottom:12px}
 .demo-side p{font-size:15.5px;color:var(--gris);margin-bottom:20px;line-height:1.6}
@@ -1226,29 +1233,40 @@ var KoniChat = (function(){
     {t:'cli', m:'Sí, dale'},
     {t:'bot', m:'¡Perfecto! ¿Me confirmas tu nombre y dirección? 📦'},
     {t:'cli', m:'Juan Pérez, Calle 10 #5-20'},
-    {t:'bot', m:'¡Listo Juan! ✅ Tu pedido quedó confirmado. Te llega en 2-3 días.'}
+    {t:'bot', m:'¡Listo Juan! ✅ Tu pedido quedó confirmado. Te llega en 2-3 días.'},
+    {t:'cli', voz:'voz-cliente.mp3', dur:'0:06', secs:6},
+    {t:'bot', voz:'voz-bot.mp3', dur:'0:09', secs:9}
   ];
+    function bars(){var s='';for(var k=0;k<22;k++){var hh=22+Math.round(Math.abs(Math.sin(k*0.9))*66);s+='<i style="height:'+hh+'%;animation-delay:'+(k*0.05).toFixed(2)+'s"></i>';}return s;}
+  function play(el,src){try{if(window._dAud){window._dAud.pause();}}catch(e){}el.classList.add('playing');var a=new Audio(src);window._dAud=a;return a.play().then(function(){a.onended=function(){el.classList.remove('playing');};return true;}).catch(function(){el.classList.remove('playing');return false;});}
   function render(upto){
     chat.innerHTML='';
     for(var i=0;i<upto;i++){
+      var e=conv[i];
       var d=document.createElement('div');
-      d.className='msg '+conv[i].t;
-      d.textContent=conv[i].m;
-      d.style.animationDelay=(i===upto-1?'0s':'0s');
+      d.className='msg '+e.t+(e.voz?' voz':'');
+      if(e.voz){ d.innerHTML='<span class="voz-play">\u25B6</span><span class="voz-wave">'+bars()+'</span><span class="voz-dur">'+e.dur+'</span>'; }
+      else { d.textContent=e.m; }
       chat.appendChild(d);
     }
     chat.scrollTop=chat.scrollHeight;
+    var last=conv[upto-1];
+    if(last && last.voz && !last.done){ play(chat.lastChild,last.voz).then(function(ok){ if(ok) last.done=true; }); }
   }
   var i=0;
   function step(){
     i++;
     render(i);
+    var last=conv[i-1];
     if(i>=conv.length){
-      setTimeout(function(){ i=0; render(0); setTimeout(step,600); }, 3500);
+      setTimeout(function(){ i=0; render(0); setTimeout(step,600); }, (last&&last.voz)?4500:3500);
+    } else if(last && last.voz){
+      setTimeout(step, (last.secs||8)*1000 + 500);
     } else {
       setTimeout(step, 1300);
     }
   }
+  document.addEventListener('pointerdown', function(){ if(window._dAud){window._dAud.play().catch(function(){});} }, {once:true});
   var started=false;
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
