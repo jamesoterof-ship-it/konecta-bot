@@ -178,6 +178,8 @@ section{padding:78px 0}
 .msg.voz.playing .voz-wave i{animation:vozBar .85s ease-in-out infinite}
 @keyframes vozBar{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
 .voz-dur{font-size:11px;opacity:.75;flex:0 0 auto}
+.msg.voz.voz-hint .voz-play{animation:vozPulse 1s ease-in-out infinite}
+@keyframes vozPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.18);opacity:1}}
 @keyframes msgIn{to{opacity:1;transform:translateY(0)}}
 .demo-side h3{font-size:25px;font-weight:800;margin-bottom:12px}
 .demo-side p{font-size:15.5px;color:var(--gris);margin-bottom:20px;line-height:1.6}
@@ -513,10 +515,10 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
       </div>
       <div class="demo-side">
         <h3>Una venta real, automática</h3>
-        <p>El bot saluda, resuelve dudas, da el precio, toma los datos y cierra el pedido. Todo con inteligencia artificial que entiende a tu cliente como una persona.</p>
+        <p>El bot saluda, resuelve dudas, da el precio y cierra el pedido — por texto <b>y por nota de voz</b>. Si tu cliente le habla por audio, el bot lo <b>escucha</b> y le <b>responde hablando</b>, como una persona.</p>
         <ul class="demo-checks">
           <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Responde al instante, 24/7</li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Entiende preguntas naturales</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Escucha y responde con notas de voz 🎙️</li>
           <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Toma el pedido completo</li>
           <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Nunca pierde una venta por demora</li>
         </ul>
@@ -1225,27 +1227,46 @@ var KoniChat = (function(){
 (function(){
   var chat = document.getElementById('demoChat');
   if(!chat) return;
-    var conv = [
+      var conv = [
     {t:'cli', m:'Hola, vi su anuncio 👀'},
-    {t:'bot', m:'¡Hola! 😊 Bienvenido. ¿Te ayudo con tu pedido?'},
+    {t:'bot', m:'¡Hola! 😊 Bienvenido, ¿te ayudo con tu pedido?'},
     {t:'cli', voz:'voz-cliente.mp3', dur:'0:06', secs:6},
-    {t:'bot', voz:'voz-bot.mp3', dur:'0:09', secs:9}
+    {t:'bot', voz:'voz-bot.mp3', dur:'0:09', secs:10},
+    {t:'cli', m:'A Bogotá 🙌 lo quiero'},
+    {t:'bot', m:'¡Perfecto! Pásame tu nombre y dirección 📦'},
+    {t:'cli', voz:'voz-cliente2.mp3', dur:'0:05', secs:5},
+    {t:'bot', voz:'voz-bot2.mp3', dur:'0:06', secs:6}
   ];
-    function bars(){var s='';for(var k=0;k<22;k++){var hh=22+Math.round(Math.abs(Math.sin(k*0.9))*66);s+='<i style="height:'+hh+'%;animation-delay:'+(k*0.05).toFixed(2)+'s"></i>';}return s;}
-  function play(el,src){try{if(window._dAud){window._dAud.pause();}}catch(e){}el.classList.add('playing');var a=new Audio(src);window._dAud=a;return a.play().then(function(){a.onended=function(){el.classList.remove('playing');};return true;}).catch(function(){el.classList.remove('playing');return false;});}
+      function bars(){var s='';for(var k=0;k<20;k++){var hh=22+Math.round(Math.abs(Math.sin(k*0.9))*66);s+='<i style="height:'+hh+'%;animation-delay:'+(k*0.05).toFixed(2)+'s"></i>';}return s;}
+  var unlocked=false, pending=null;
+  function realPlay(el,src,onOk){
+    try{ if(window._dAud){window._dAud.pause();} }catch(e){}
+    el.classList.remove('voz-hint'); el.classList.add('playing');
+    var a=new Audio(src); window._dAud=a;
+    a.onended=function(){ el.classList.remove('playing'); };
+    var pr=a.play();
+    if(pr && pr.then){ pr.then(function(){ unlocked=true; if(onOk)onOk(); }).catch(function(){ el.classList.remove('playing'); el.classList.add('voz-hint'); pending={el:el,src:src,onOk:onOk}; }); }
+    else { unlocked=true; if(onOk)onOk(); }
+  }
+  function unlockNow(){
+    if(!unlocked){ unlocked=true; try{ var u=new Audio('voz-bot.mp3'); u.muted=true; var p2=u.play(); if(p2&&p2.then)p2.then(function(){u.pause();u.currentTime=0;}).catch(function(){}); }catch(e){} }
+    if(pending){ var q=pending; pending=null; realPlay(q.el,q.src,q.onOk); }
+  }
+  function armUnlock(){ if(window._armed) return; window._armed=true; ['touchstart','pointerdown','mousedown','keydown','click'].forEach(function(ev){ document.addEventListener(ev, unlockNow, {passive:true}); }); }
+  (function(){ var dd=document.getElementById('demo'); var s=dd&&dd.previousElementSibling; while(s && s.tagName!=='SECTION'){ s=s.previousElementSibling; } if(s){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) armUnlock(); }); },{threshold:0.15}).observe(s); } else { armUnlock(); } })();
   function render(upto){
     chat.innerHTML='';
-    for(var i=0;i<upto;i++){
-      var e=conv[i];
+    for(var j=0;j<upto;j++){
+      var e=conv[j];
       var d=document.createElement('div');
       d.className='msg '+e.t+(e.voz?' voz':'');
-      if(e.voz){ d.innerHTML='<span class="voz-play">\u25B6</span><span class="voz-wave">'+bars()+'</span><span class="voz-dur">'+e.dur+'</span>'; }
+      if(e.voz){ d.dataset.voz=e.voz; d.style.cursor='pointer'; d.innerHTML='<span class="voz-play">▶</span><span class="voz-wave">'+bars()+'</span><span class="voz-dur">'+e.dur+'</span>'; d.onclick=function(){ realPlay(this,this.dataset.voz); }; }
       else { d.textContent=e.m; }
       chat.appendChild(d);
     }
     chat.scrollTop=chat.scrollHeight;
     var last=conv[upto-1];
-    if(last && last.voz && !last.done){ play(chat.lastChild,last.voz).then(function(ok){ if(ok) last.done=true; }); }
+    if(last && last.voz && !last.done){ realPlay(chat.lastChild,last.voz,function(){ last.done=true; }); }
   }
   var i=0;
   function step(){
@@ -1253,14 +1274,13 @@ var KoniChat = (function(){
     render(i);
     var last=conv[i-1];
     if(i>=conv.length){
-      setTimeout(function(){ i=0; render(0); setTimeout(step,600); }, (last&&last.voz)?4500:3500);
+      setTimeout(function(){ i=0; render(0); setTimeout(step,700); }, (last&&last.voz)?3500:3000);
     } else if(last && last.voz){
-      setTimeout(step, (last.secs||8)*1000 + 500);
+      setTimeout(step, (last.secs||7)*1000 + 500);
     } else {
       setTimeout(step, 1300);
     }
   }
-  document.addEventListener('pointerdown', function(){ if(window._dAud){window._dAud.play().catch(function(){});} }, {once:true});
   var started=false;
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
