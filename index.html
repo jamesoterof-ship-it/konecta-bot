@@ -1225,15 +1225,9 @@ var KoniChat = (function(){
 (function(){
   var chat = document.getElementById('demoChat');
   if(!chat) return;
-  var conv = [
+    var conv = [
     {t:'cli', m:'Hola, vi su anuncio 👀'},
-    {t:'bot', m:'¡Hola! 😊 Bienvenido. ¿Te gustaría conocer nuestros productos?'},
-    {t:'cli', m:'Sí, ¿cuánto cuesta el combo?'},
-    {t:'bot', m:'El combo está en $89.900 con envío gratis 🚚 ¿Te lo despacho?'},
-    {t:'cli', m:'Sí, dale'},
-    {t:'bot', m:'¡Perfecto! ¿Me confirmas tu nombre y dirección? 📦'},
-    {t:'cli', m:'Juan Pérez, Calle 10 #5-20'},
-    {t:'bot', m:'¡Listo Juan! ✅ Tu pedido quedó confirmado. Te llega en 2-3 días.'},
+    {t:'bot', m:'¡Hola! 😊 Bienvenido. ¿Te ayudo con tu pedido?'},
     {t:'cli', voz:'voz-cliente.mp3', dur:'0:06', secs:6},
     {t:'bot', voz:'voz-bot.mp3', dur:'0:09', secs:9}
   ];
