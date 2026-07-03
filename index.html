@@ -1153,6 +1153,8 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
   #koni-head button{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
   #koni-msgs{flex:1;overflow-y:auto;padding:16px;background:#f4f7f9;display:flex;flex-direction:column;gap:10px}
   .koni-b{max-width:82%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
+  .koni-wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;font-weight:700;font-size:14px;padding:10px 16px;border-radius:12px;text-decoration:none;margin-top:8px;box-shadow:0 4px 12px rgba(37,211,102,.35);transition:background .2s}
+  .koni-wa-btn:hover{background:#1eb658}
   .koni-b.bot{background:#fff;color:#16232E;align-self:flex-start;border:1px solid #e6edf2;border-bottom-left-radius:4px}
   .koni-b.user{background:#6CC24A;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
   #koni-input{display:flex;gap:8px;padding:12px;border-top:1px solid #e6edf2;background:#fff}
@@ -1199,8 +1201,13 @@ var KoniChat = (function(){
   var hist = [], abierto = false, saludado = false, enviando = false, imgPend = null;
 
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  // texto limpio: convierte **negrita** a <b> y elimina asteriscos sueltos
-  function fmt(s){ return esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*/g,''); }
+  // texto limpio: **negrita** -> <b>, quita asteriscos sueltos, y [WHATSAPP]url[/WHATSAPP] -> botón verde
+  function fmt(s){
+    var h = esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*/g,'');
+    h = h.replace(/\[WHATSAPP\]\s*(https?:\/\/[^\s\]]+)\s*\[\/WHATSAPP\]/g,
+      '<a href="$1" target="_blank" rel="noopener" class="koni-wa-btn"><svg viewBox="0 0 24 24" fill="#fff" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>Hablar con una persona</a>');
+    return h;
+  }
 
   function burbuja(de, html){
     var d = document.createElement('div');
