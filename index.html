@@ -84,9 +84,6 @@ section{padding:78px 0}
 .sec-head h2{font-size:36px;font-weight:800;margin:12px 0 14px;letter-spacing:-.5px}
 .sec-head p{font-size:17px;color:var(--gris)}
 .bg-soft{background:var(--bg)}
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s cubic-bezier(.2,.7,.3,1),transform .65s cubic-bezier(.2,.7,.3,1);will-change:opacity,transform}
-.reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 .sellos-row{margin-top:30px;text-align:center}
 .sellos-tit{font-size:13px;font-weight:700;letter-spacing:1px;color:var(--gris);text-transform:uppercase;margin-bottom:16px}
 .sellos-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
@@ -1281,14 +1278,159 @@ var KoniChat = (function(){
   function step(){ i++; render(i); if(i<conv.length){ setTimeout(step, 1400); } }
   var started=false;
   var obs=new IntersectionObserver(function(entries){
-    var vis=entries.filter(function(e){return e.isIntersecting;});
-      vis.forEach(function(e,k){
-        e.target.style.transitionDelay=(k*80)+"ms";
-        e.target.classList.add("in");
-        io.unobserve(e.target);
+    entries.forEach(function(e){
+      if(e.isIntersecting && !started){ started=true; step(); }
+    });
+  },{threshold:0.3});
+  obs.observe(chat);
+})();
+
+(function(){
+  var screen = document.getElementById('installScreen');
+  var stepsBox = document.getElementById('installSteps');
+  if(!screen || !stepsBox) return;
+  var steps = stepsBox.querySelectorAll('.ins-step');
+  var qr = '<svg viewBox="0 0 100 100"><rect x="0" y="0" width="30" height="30" fill="#16232e"/><rect x="6" y="6" width="18" height="18" fill="#fff"/><rect x="11" y="11" width="8" height="8" fill="#16232e"/><rect x="70" y="0" width="30" height="30" fill="#16232e"/><rect x="76" y="6" width="18" height="18" fill="#fff"/><rect x="81" y="11" width="8" height="8" fill="#16232e"/><rect x="0" y="70" width="30" height="30" fill="#16232e"/><rect x="6" y="76" width="18" height="18" fill="#fff"/><rect x="11" y="81" width="8" height="8" fill="#16232e"/><rect x="40" y="10" width="8" height="8" fill="#16232e"/><rect x="55" y="20" width="8" height="8" fill="#16232e"/><rect x="40" y="40" width="8" height="8" fill="#6cc24a"/><rect x="55" y="50" width="8" height="8" fill="#16232e"/><rect x="70" y="45" width="8" height="8" fill="#16232e"/><rect x="85" y="55" width="8" height="8" fill="#16232e"/><rect x="45" y="70" width="8" height="8" fill="#16232e"/><rect x="60" y="80" width="8" height="8" fill="#16232e"/><rect x="80" y="75" width="8" height="8" fill="#16232e"/></svg>';
+  var screens = [
+    '<div class="ins-screen-content"><div class="ins-label">TU NÚMERO DE WHATSAPP</div><div class="ins-field">+57 300 ___ ____<span class="ins-cursor"></span></div></div>',
+    '<div class="ins-screen-content"><div class="ins-label">CONECTA TU WHATSAPP</div><div class="ins-tabs"><span class="ins-tab on">Coexistencia (QR)</span><span class="ins-tab">API Meta</span></div><div class="ins-qr">'+qr+'</div></div>',
+    '<div class="ins-screen-content"><div class="ins-label">DALE SU CONOCIMIENTO</div><div class="ins-tabs"><span class="ins-tab on">Link</span><span class="ins-tab">Archivos</span><span class="ins-tab">Texto</span></div><div class="ins-field" style="font-size:13px">mitienda.com/productos<span class="ins-cursor"></span></div></div>',
+    '<div class="ins-screen-content"><div class="ins-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><div style="font-size:19px;font-weight:700">¡Bot activo!</div><div style="font-size:13px;color:#a8b8c0;margin-top:6px">Ya está atendiendo y vendiendo</div></div>'
+  ];
+  var idx=0;
+  function show(i){
+    screen.innerHTML = screens[i];
+    steps.forEach(function(s,n){ s.classList.toggle('active', n===i); });
+  }
+  function loop(){
+    show(idx);
+    idx++;
+    if(idx>=screens.length){
+      setTimeout(function(){ idx=0; setTimeout(loop, 400); }, 2600);
+    } else {
+      setTimeout(loop, 2200);
+    }
+  }
+  var go=false;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting && !go){ go=true; loop(); } });
+  },{threshold:0.3});
+  io.observe(screen);
+})();
+
+function setBilling(tipo){
+  var nums = document.querySelectorAll('.precio-num');
+  var notas = document.querySelectorAll('.precio-anual-nota');
+  var btM = document.getElementById('btMensual');
+  var btA = document.getElementById('btAnual');
+  nums.forEach(function(n){
+    n.textContent = tipo === 'anual' ? n.getAttribute('data-a') : n.getAttribute('data-m');
+  });
+  notas.forEach(function(nota){
+    nota.style.display = tipo === 'anual' ? 'block' : 'none';
+  });
+  if(tipo === 'anual'){ btA.classList.add('active'); btM.classList.remove('active'); }
+  else { btM.classList.add('active'); btA.classList.remove('active'); }
+}
+</script>
+
+<script>
+/* Scroll-reveal: las tarjetas y secciones aparecen deslizándose en cascada al bajar.
+   Con respaldo seguro (nunca deja contenido oculto). */
+(function(){
+  var sel = '.sec-head, #funciones .feat, #como .step, #conexion .conexion-card,'
+          + ' #integraciones .shopify-box, #integraciones .proximo-box, #precios .plan,'
+          + ' #confianza .co, #redes .redes-canal';
+  var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+  if(!els.length) return;
+  els.forEach(function(el){ el.classList.add('reveal'); });
+  if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('vis'); }); return; }
+  var o = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target;
+      // Cascada: cada tarjeta de un mismo grupo aparece un poquito después que la anterior.
+      var sibs = el.parentNode ? Array.prototype.slice.call(el.parentNode.children).filter(function(n){
+        return n.classList && n.classList.contains('reveal');
+      }) : [el];
+      var i = sibs.indexOf(el);
+      el.style.transitionDelay = (Math.max(0, i) * 0.09) + 's';
+      el.classList.add('vis');
+      o.unobserve(el);
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -50px 0px' });
+  els.forEach(function(el){ o.observe(el); });
+  // Respaldo: si el observer fallara, mostrar todo a los 6s (nunca dejar contenido oculto).
+  setTimeout(function(){ els.forEach(function(el){ el.classList.add('vis'); }); }, 6000);
+})();
+</script>
+
+<style>#inicio canvas.vanta-canvas, #inicio canvas{opacity:.28 !important}</style>
+<!-- ===== EFECTO NET (red/conexion) en el hero - Vanta.js ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
+<script>
+(function(){
+  function initNet(){
+    if(!(window.VANTA && window.VANTA.NET && window.THREE)) return;
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    try{
+      VANTA.NET({
+        el: '#inicio',
+        mouseControls: true, touchControls: true, gyroControls: false,
+        minHeight: 200.0, minWidth: 200.0, scale: 1.0, scaleMobile: 1.0,
+        color: 0x8bd64f,
+        backgroundColor: 0x16232e,
+        points: (window.innerWidth < 760 ? 5.0 : 7.0),
+        maxDistance: 18.0,
+        spacing: 22.0,
+        showDots: true
       });
-  },{threshold:0.12, rootMargin:'0px 0px -8% 0px'});
-  els.forEach(function(el){ io.observe(el); });
+    }catch(e){}
+  }
+  if(document.readyState !== "loading") initNet();
+  else window.addEventListener("DOMContentLoaded", initNet);
+})();
+</script>
+<!-- ===== CAPA DE EFECTOS (reveals + contadores + hover) ===== -->
+<style>
+.fx{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,.8,.28,1),transform .7s cubic-bezier(.16,.8,.28,1)}
+.fx.in{opacity:1;transform:none}
+.feat-grid .feat:nth-child(2),.steps .step:nth-child(2),.price-grid .plan:nth-child(2),.conexion-grid .conexion-card:nth-child(2),.stats .stat:nth-child(2){transition-delay:.08s}
+.feat-grid .feat:nth-child(3),.steps .step:nth-child(3),.price-grid .plan:nth-child(3),.stats .stat:nth-child(3){transition-delay:.16s}
+.feat-grid .feat:nth-child(4),.stats .stat:nth-child(4){transition-delay:.24s}
+.feat,.plan,.conexion-card{transition:transform .25s,box-shadow .25s,border-color .25s}
+.feat:hover,.conexion-card:hover{box-shadow:0 16px 40px rgba(108,194,74,.16) !important;border-color:rgba(108,194,74,.4) !important}
+.plan:hover{box-shadow:0 18px 46px rgba(108,194,74,.18) !important}
+.faq-item{transition:border-color .2s,box-shadow .2s}
+.faq-item:hover{border-color:rgba(108,194,74,.35) !important}
+@media(prefers-reduced-motion:reduce){.fx{opacity:1 !important;transform:none !important;transition:none !important}}
+</style>
+<script src="fx.js?v=7"></script>
+<link rel="stylesheet" href="redesign.css?v=7">
+<!-- ===== EFECTO NET tambien en el CTA final ===== -->
+<style>
+.cta{position:relative !important;overflow:hidden !important}
+.cta .wrap{position:relative;z-index:2}
+.cta canvas{opacity:.28 !important;z-index:0}
+</style>
+<script>
+(function(){
+  function initCta(){
+    if(!(window.VANTA && window.VANTA.NET && window.THREE)){ setTimeout(initCta,200); return; }
+    if(matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+    try{
+      VANTA.NET({
+        el: ".cta",
+        mouseControls: true, touchControls: true, gyroControls: false,
+        minHeight: 200.0, minWidth: 200.0, scale: 1.0, scaleMobile: 1.0,
+        color: 0x8bd64f, backgroundColor: 0x14222e,
+        points: (window.innerWidth < 760 ? 5.0 : 7.0), maxDistance: 18.0, spacing: 22.0, showDots: true
+      });
+    }catch(e){}
+  }
+  if(document.readyState !== "loading") initCta();
+  else window.addEventListener("DOMContentLoaded", initCta);
 })();
 </script>
 </body>
