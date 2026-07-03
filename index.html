@@ -178,7 +178,7 @@ section{padding:78px 0}
 .msg.voz.playing .voz-wave i{animation:vozBar .85s ease-in-out infinite}
 @keyframes vozBar{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
 .voz-dur{font-size:11px;opacity:.75;flex:0 0 auto}
-.msg.voz.voz-hint .voz-play{animation:vozPulse 1s ease-in-out infinite}
+.msg.voz:not(.playing) .voz-play{animation:vozPulse 1.6s ease-in-out infinite}
 @keyframes vozPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.18);opacity:1}}
 @keyframes msgIn{to{opacity:1;transform:translateY(0)}}
 .demo-side h3{font-size:25px;font-weight:800;margin-bottom:12px}
@@ -1237,50 +1237,29 @@ var KoniChat = (function(){
     {t:'cli', voz:'voz-cliente2.mp3', dur:'0:05', secs:5},
     {t:'bot', voz:'voz-bot2.mp3', dur:'0:06', secs:6}
   ];
-      function bars(){var s='';for(var k=0;k<20;k++){var hh=22+Math.round(Math.abs(Math.sin(k*0.9))*66);s+='<i style="height:'+hh+'%;animation-delay:'+(k*0.05).toFixed(2)+'s"></i>';}return s;}
-  var unlocked=false, pending=null;
-  function realPlay(el,src,onOk){
-    try{ if(window._dAud){window._dAud.pause();} }catch(e){}
-    el.classList.remove('voz-hint'); el.classList.add('playing');
-    var a=new Audio(src); window._dAud=a;
+        function bars(){var s='';for(var k=0;k<20;k++){var hh=22+Math.round(Math.abs(Math.sin(k*0.9))*66);s+='<i style="height:'+hh+'%;animation-delay:'+(k*0.05).toFixed(2)+'s"></i>';}return s;}
+  function playVoice(el,src){
+    try{ if(window._dAud){ window._dAud.pause(); if(window._dAud._el) window._dAud._el.classList.remove('playing'); } }catch(e){}
+    if(window._dAud && window._dAud._el===el && !window._dAud.paused){ window._dAud.pause(); el.classList.remove('playing'); return; }
+    var a=new Audio(src); a._el=el; window._dAud=a;
+    el.classList.add('playing');
     a.onended=function(){ el.classList.remove('playing'); };
-    var pr=a.play();
-    if(pr && pr.then){ pr.then(function(){ unlocked=true; if(onOk)onOk(); }).catch(function(){ el.classList.remove('playing'); el.classList.add('voz-hint'); pending={el:el,src:src,onOk:onOk}; }); }
-    else { unlocked=true; if(onOk)onOk(); }
+    a.play().catch(function(){ el.classList.remove('playing'); });
   }
-  function unlockNow(){
-    if(!unlocked){ unlocked=true; try{ var u=new Audio('voz-bot.mp3'); u.muted=true; var p2=u.play(); if(p2&&p2.then)p2.then(function(){u.pause();u.currentTime=0;}).catch(function(){}); }catch(e){} }
-    if(pending){ var q=pending; pending=null; realPlay(q.el,q.src,q.onOk); }
-  }
-  function armUnlock(){ if(window._armed) return; window._armed=true; ['touchstart','pointerdown','mousedown','keydown','click'].forEach(function(ev){ document.addEventListener(ev, unlockNow, {passive:true}); }); }
-  (function(){ var dd=document.getElementById('demo'); var s=dd&&dd.previousElementSibling; while(s && s.tagName!=='SECTION'){ s=s.previousElementSibling; } if(s){ new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) armUnlock(); }); },{threshold:0.15}).observe(s); } else { armUnlock(); } })();
   function render(upto){
     chat.innerHTML='';
     for(var j=0;j<upto;j++){
       var e=conv[j];
       var d=document.createElement('div');
       d.className='msg '+e.t+(e.voz?' voz':'');
-      if(e.voz){ d.dataset.voz=e.voz; d.style.cursor='pointer'; d.innerHTML='<span class="voz-play">▶</span><span class="voz-wave">'+bars()+'</span><span class="voz-dur">'+e.dur+'</span>'; d.onclick=function(){ realPlay(this,this.dataset.voz); }; }
+      if(e.voz){ d.dataset.voz=e.voz; d.title='Toca para escuchar'; d.style.cursor='pointer'; d.innerHTML='<span class="voz-play">▶</span><span class="voz-wave">'+bars()+'</span><span class="voz-dur">'+e.dur+'</span>'; d.onclick=function(){ playVoice(this,this.dataset.voz); }; }
       else { d.textContent=e.m; }
       chat.appendChild(d);
     }
     chat.scrollTop=chat.scrollHeight;
-    var last=conv[upto-1];
-    if(last && last.voz && !last.done){ realPlay(chat.lastChild,last.voz,function(){ last.done=true; }); }
   }
   var i=0;
-  function step(){
-    i++;
-    render(i);
-    var last=conv[i-1];
-    if(i>=conv.length){
-      setTimeout(function(){ i=0; render(0); setTimeout(step,700); }, (last&&last.voz)?3500:3000);
-    } else if(last && last.voz){
-      setTimeout(step, (last.secs||7)*1000 + 500);
-    } else {
-      setTimeout(step, 1300);
-    }
-  }
+  function step(){ i++; render(i); if(i<conv.length){ setTimeout(step, 1400); } }
   var started=false;
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
