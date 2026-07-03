@@ -332,10 +332,11 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
   .sec-head h2{font-size:29px}
 }
 @media(max-width:640px){
-  .nav-links{display:none;position:absolute;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:#fff;border-bottom:1px solid var(--borde);box-shadow:0 12px 28px rgba(22,35,46,.14);padding:8px 22px 18px}
+  .nav-links{display:none;position:absolute;top:66px;right:16px;flex-direction:column;align-items:stretch;gap:2px;min-width:200px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--borde);border-radius:16px;box-shadow:0 14px 34px rgba(22,35,46,.18);padding:10px}
   .nav-links.open{display:flex}
-  .nav-links a{padding:13px 4px;font-size:16px;color:var(--oscuro);border-bottom:1px solid var(--borde)}
-  .nav-links a.btn{border-bottom:none;text-align:center;margin-top:10px}
+  .nav-links a{padding:11px 14px;font-size:15px;color:var(--oscuro);border-radius:10px}
+  .nav-links a:not(.btn):hover,.nav-links a:not(.btn):active{background:rgba(108,194,74,.1)}
+  .nav-links a.btn{text-align:center;margin-top:6px}
   .menu-toggle{display:block}
   .feat-grid{grid-template-columns:1fr}
   .hero{padding-top:120px}
