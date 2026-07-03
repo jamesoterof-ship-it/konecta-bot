@@ -268,15 +268,20 @@ section{padding:78px 0}
 .hero-trust{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
 .ht-badge{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#dbe7d6;background:rgba(255,255,255,.05);border:1px solid rgba(108,194,74,.4);border-radius:999px;padding:6px 13px}
 .ht-badge svg{width:15px;height:15px;flex:0 0 15px}
-/* Entrada animada del HERO al cargar (en cascada, visible sin hacer scroll) */
+/* Entrada animada del HERO al cargar */
 @keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-.hero-text>*{animation:heroIn .75s cubic-bezier(.16,.84,.44,1) backwards}
-.hero-text>.eyebrow{animation-delay:.05s}
-.hero-text>h1{animation-delay:.18s}
-.hero-text>.sub{animation-delay:.36s}
-.hero-text>.hero-benes{animation-delay:.52s}
-.hero-text>.hero-btns{animation-delay:.68s}
-.hero-text>.hero-note{animation-delay:.82s}
+.hero-text>*{animation:heroIn .9s cubic-bezier(.37,0,.63,1) backwards}
+.hero-text>.eyebrow{animation-delay:.08s}
+.hero-text>h1{animation:none}
+.hero-text>.sub{animation-delay:1.35s}
+.hero-text>.hero-benes{animation-delay:1.55s}
+.hero-text>.hero-btns{animation-delay:1.75s}
+.hero-text>.hero-note{animation-delay:1.95s}
+.hero-text>.hero-trust{animation-delay:2.1s}
+/* Cascada de letras del titulo (letra por letra, con retraso creciente) */
+@keyframes ltrIn{from{opacity:0;transform:translateY(.6em)}to{opacity:1;transform:none}}
+.hero-text h1 .wd{display:inline-block;white-space:nowrap}
+.hero-text h1 .ltr{display:inline-block;animation:ltrIn .55s cubic-bezier(.2,.7,.3,1) backwards}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}.hero-text>*{opacity:1!important;animation:none!important}}
 
 /* CTA */
@@ -1440,6 +1445,37 @@ function setBilling(tipo){
   }
   if(document.readyState !== "loading") initCta();
   else window.addEventListener("DOMContentLoaded", initCta);
+})();
+</script>
+<script>
+/* Cascada de letras: parte el titulo del hero en letras con retraso creciente */
+(function(){
+  try{ if(matchMedia('(prefers-reduced-motion:reduce)').matches) return; }catch(e){}
+  var h1 = document.querySelector('.hero-text h1');
+  if(!h1) return;
+  var i = 0, base = 0.30, step = 0.045;
+  function wrapText(node){
+    var frag = document.createDocumentFragment();
+    var parts = node.textContent.split(/(\s+)/);
+    parts.forEach(function(part){
+      if(part === '') return;
+      if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(part)); return; }
+      var word = document.createElement('span'); word.className = 'wd';
+      part.split('').forEach(function(ch){
+        var s = document.createElement('span'); s.className = 'ltr'; s.textContent = ch;
+        s.style.animationDelay = (base + i*step).toFixed(3) + 's'; i++;
+        word.appendChild(s);
+      });
+      frag.appendChild(word);
+    });
+    node.parentNode.replaceChild(frag, node);
+  }
+  Array.prototype.slice.call(h1.childNodes).forEach(function(n){
+    if(n.nodeType === 3){ wrapText(n); }
+    else if(n.nodeName === 'SPAN'){
+      Array.prototype.slice.call(n.childNodes).forEach(function(c){ if(c.nodeType === 3) wrapText(c); });
+    }
+  });
 })();
 </script>
 </body>
