@@ -347,6 +347,48 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
   .stat{flex:1 1 40%}
   .robot{width:180px}
 }
+/* ===== TESTIMONIOS (carrusel) ===== */
+.kt-rate{display:flex;flex-direction:column;align-items:center;gap:5px;margin:0 0 30px}
+.kt-rate .st{display:flex;gap:4px}
+.kt-rate .st svg{width:26px;height:26px;fill:#f5b301}
+.kt-rate b{font-size:20px;color:var(--oscuro);font-weight:800}
+.kt-rate span{font-size:13.5px;color:var(--gris)}
+.kt-carru{position:relative}
+.kt-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 18px;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;align-items:stretch}
+.kt-track::-webkit-scrollbar{display:none}
+.kt-slide{scroll-snap-align:center;flex:0 0 260px;max-width:260px;display:flex}
+@media(max-width:520px){.kt-slide{flex:0 0 82vw;max-width:82vw}}
+.kt-card{background:var(--blanco);border:1px solid var(--borde);border-radius:16px;padding:18px 17px;width:100%;display:flex;flex-direction:column;gap:11px;box-shadow:0 8px 26px rgba(22,35,46,.05)}
+.kt-stars{display:flex;gap:2px}
+.kt-stars svg{width:16px;height:16px;fill:#f5b301}
+.kt-body{font-size:14px;line-height:1.55;color:var(--oscuro2)}
+.kt-body b{color:var(--oscuro);background:linear-gradient(transparent 60%,#c9edb8 60%)}
+.kt-user{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:6px}
+.kt-ava{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--verde-osc));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
+.kt-name{font-size:14.5px;font-weight:700}
+.kt-meta{font-size:12.5px;color:var(--gris)}
+.kt-video{position:relative;width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--borde);min-height:300px;background-size:cover;background-position:center 15%;display:flex;align-items:flex-end;box-shadow:0 10px 30px rgba(22,35,46,.14);cursor:pointer;background-color:#16232e}
+.kt-video .grad{position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.72))}
+.kt-badge{position:absolute;top:14px;left:14px;z-index:3;background:rgba(255,255,255,.92);color:var(--verde-osc);font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:20px;display:flex;align-items:center;gap:5px}
+.kt-badge svg{width:13px;height:13px;fill:var(--verde-osc)}
+.kt-play{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(0,0,0,.35);z-index:3}
+.kt-play svg{width:26px;height:26px;fill:var(--verde-osc);margin-left:3px}
+.kt-cap{position:relative;z-index:2;width:100%;padding:16px 18px;color:#fff}
+.kt-cap b{font-size:15px;display:block}
+.kt-cap span{font-size:12.5px;opacity:.9}
+.kt-arrow{position:absolute;top:42%;width:44px;height:44px;border-radius:50%;background:var(--blanco);border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px rgba(22,35,46,.12);z-index:5;transition:all .2s}
+.kt-arrow:hover{background:var(--verde);border-color:var(--verde)}
+.kt-arrow:hover svg{stroke:#fff}
+.kt-arrow svg{width:20px;height:20px;stroke:var(--oscuro);fill:none;stroke-width:2.4}
+.kt-arrow.prev{left:-8px}.kt-arrow.next{right:-8px}
+@media(max-width:1180px){.kt-arrow.prev{left:4px}.kt-arrow.next{right:4px}}
+.kt-dots{display:flex;justify-content:center;gap:7px;margin-top:12px;flex-wrap:wrap}
+.kt-dot{width:7px;height:7px;border-radius:50%;background:var(--borde);cursor:pointer;transition:all .2s}
+.kt-dot.on{background:var(--verde);width:22px;border-radius:5px}
+.kt-lb{position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:99999;display:none;align-items:center;justify-content:center;padding:18px}
+.kt-lb.on{display:flex}
+.kt-lb video{max-width:min(92vw,400px);max-height:86vh;border-radius:14px;background:#000}
+.kt-lb .x{position:absolute;top:16px;right:22px;color:#fff;font-size:36px;line-height:1;cursor:pointer}
 </style>
 <style>
 .hero-benes{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:9px}
@@ -846,6 +888,81 @@ footer{background:var(--oscuro);color:#fff;padding:54px 0 30px}
     <div class="recap-foot">Atrae · Atiende · Vende · Controla · Entrega — <b style="color:#fff">todo automático, sin que tengas que saber de tecnología.</b></div>
   </div>
 </section>
+
+<section id="testimonios">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Lo que dicen</div>
+      <h2>Negocios que ya venden con Konecta</h2>
+      <p>Dueños reales que subieron sus ventas y bajaron su carga de trabajo.</p>
+    </div>
+    <div class="kt-rate">
+      <div class="st"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></div>
+      <b>5,0</b>
+      <span>Testimonios de clientes reales</span>
+    </div>
+    <div class="kt-carru">
+      <div class="kt-arrow prev" onclick="ktMover(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="kt-arrow next" onclick="ktMover(1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="kt-track" id="ktTrack">
+
+        <div class="kt-slide"><div class="kt-video" style="background-image:url('assets/testi/aurea.jpg')" onclick="ktPlay('assets/testi/aurea.mp4')">
+          <div class="grad"></div>
+          <div class="kt-badge"><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5L4 14.2 9 19.2 20 8.2l-1.5-1.5z"/></svg> En video</div>
+          <div class="kt-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="kt-cap"><b>Muebles Aurea</b><span>Su testimonio en video</span></div>
+        </div></div>
+
+        <div class="kt-slide"><div class="kt-video" style="background-image:url('assets/testi/margarita.jpg')" onclick="ktPlay('assets/testi/margarita.mp4')">
+          <div class="grad"></div>
+          <div class="kt-badge"><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5L4 14.2 9 19.2 20 8.2l-1.5-1.5z"/></svg> En video</div>
+          <div class="kt-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="kt-cap"><b>Margarita Padilla</b><span>Dropshipper</span></div>
+        </div></div>
+
+        <div class="kt-slide"><div class="kt-card">
+          <div class="kt-stars"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></div>
+          <div class="kt-body">"Excelente. Mis <b>ventas están aumentando</b> y me quitó mucha carga laboral."</div>
+          <div class="kt-user"><div class="kt-ava">PO</div><div><div class="kt-name">Paolo Otero</div><div class="kt-meta">Nova Hogar · Barranquilla</div></div></div>
+        </div></div>
+
+        <div class="kt-slide"><div class="kt-card">
+          <div class="kt-stars"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></div>
+          <div class="kt-body">"Nos ha ido excelente, <b>subieron las ventas</b> y nos quitó carga de trabajo."</div>
+          <div class="kt-user"><div class="kt-ava">MN</div><div><div class="kt-name">Muebles Nuva</div><div class="kt-meta">Barranquilla y Valledupar</div></div></div>
+        </div></div>
+
+      </div>
+      <div class="kt-dots" id="ktDots"></div>
+    </div>
+  </div>
+</section>
+<div class="kt-lb" id="ktLb"><span class="x" onclick="ktCerrar()">&times;</span><video id="ktVid" controls playsinline preload="none"></video></div>
+<script>
+(function(){
+  var track=document.getElementById('ktTrack'); if(!track) return;
+  var dots=document.getElementById('ktDots');
+  var slides=track.querySelectorAll('.kt-slide');
+  function paso(){ var s=track.querySelector('.kt-slide'); return s ? s.offsetWidth+20 : 280; }
+  window.ktMover=function(d){ var max=track.scrollWidth-track.clientWidth-4;
+    if(d>0 && track.scrollLeft>=max) track.scrollTo({left:0,behavior:'smooth'});
+    else if(d<0 && track.scrollLeft<=4) track.scrollTo({left:max,behavior:'smooth'});
+    else track.scrollBy({left:paso()*d,behavior:'smooth'}); };
+  for(var i=0;i<slides.length;i++){ var b=document.createElement('div'); b.className='kt-dot'+(i===0?' on':'');
+    b.onclick=(function(k){return function(){ track.scrollTo({left:paso()*k,behavior:'smooth'}); }})(i); dots.appendChild(b); }
+  track.addEventListener('scroll', function(){ var idx=Math.round(track.scrollLeft/paso());
+    dots.querySelectorAll('.kt-dot').forEach(function(d,j){ d.classList.toggle('on', j===idx); }); });
+  var auto=setInterval(function(){ ktMover(1); }, 3800);
+  var carru=track.closest('.kt-carru');
+  carru.addEventListener('mouseenter', function(){ clearInterval(auto); });
+  carru.addEventListener('mouseleave', function(){ auto=setInterval(function(){ ktMover(1); }, 3800); });
+  track.addEventListener('touchstart', function(){ clearInterval(auto); }, {passive:true});
+  var lb=document.getElementById('ktLb'), vid=document.getElementById('ktVid');
+  window.ktPlay=function(src){ clearInterval(auto); vid.src=src; lb.classList.add('on'); if(vid.play) vid.play(); };
+  window.ktCerrar=function(){ lb.classList.remove('on'); if(vid.pause) vid.pause(); vid.removeAttribute('src'); if(vid.load) vid.load(); };
+  lb.addEventListener('click', function(e){ if(e.target===lb) ktCerrar(); });
+})();
+</script>
 
 <section id="precios" class="bg-soft">
   <div class="wrap">
